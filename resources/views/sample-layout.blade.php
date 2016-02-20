@@ -73,7 +73,7 @@ $(document).ready(function(){
 	        	}
 
 	        },error:function(){ 
-	            alert("error!");
+	            alert("error! Could not establish connection to the database.");
 	        }
     	});
 	
@@ -81,8 +81,7 @@ $(document).ready(function(){
   	$('#confirm_lock').click(function(){
   		var confirm = $('#confirm').val();
   		if(confirm == 'Y'|| confirm == 'y'){
-	  		$('#lock-row').fadeOut();
-	  		locked++;
+	  		
 	  		$.ajax({
 	  			dataType: "json",
 		        url: "lock",
@@ -93,19 +92,21 @@ $(document).ready(function(){
 		         qpos : current_question,
 		     	},
 		        success:function(data){
-		           //alert('Succesfully Locked!'); 
+			        $('#lock-row').fadeOut();
+	  				locked++;
+			        $('#answer-row').fadeIn('slow');
+		  			var i = 1;
+		  			var id;
+		  			for(i;i<=6;i++)
+		  				if(current_question != i){
+		  					id = '#'+i;
+		  					$(id).attr('class','not-active');
+		  				} 
 		        },error:function(){ 
 		            alert("error!");
 		        }
 	    	});
-	  		$('#answer-row').fadeIn('slow');
-	  		var i = 1;
-	  		var id;
-	  		for(i;i<=6;i++)
-	  			if(current_question != i){
-	  			id = '#'+i;
-	  			$(id).attr('class','not-active');
-	  		}
+	  		
   	 	}
 	});
 
